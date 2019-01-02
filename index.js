@@ -37,18 +37,14 @@ app.post('/webhook', (req, res) => {
       else {
         console.log('SENDER PSID IS NULL');
       }
-
-      let webhook_event1 = entry.messaging[0];
-      console.log(webhook_event1);
-
       // Check if the event is a message or postback and
       // pass the event to the appropriate handler function
-      //if (webhook_event.message) {
-      //handleMessage(sender_psid, webhook_event.message);        
-      //} 
-      //else if (webhook_event.postback) {
-      //handlePostback(sender_psid, webhook_event.postback);
-      //}
+      if (webhook_event.message) {
+      handleMessage(sender_psid, webhook_event.message);        
+      } 
+      else if (webhook_event.postback) {
+      handlePostback(sender_psid, webhook_event.postback);
+      }
       
     });
 
@@ -80,7 +76,7 @@ app.get('/webhook', (req, res) => {
     if (mode === 'subscribe' && token === VERIFY_TOKEN) {
       
       // Respond with 200 OK and challenge token from the request
-      console.log('CONGRATS Snigdha!!WEBHOOK_VERIFIED');
+      console.log('CONGRATS !!WEBHOOK_VERIFIED');
       res.status(200).send(challenge);
     
     } else {
@@ -93,6 +89,8 @@ app.get('/webhook', (req, res) => {
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
     let response;
+    console.log('IN HANDLE MESSAGE');
+    console.log('SENDER PSID: ' + sender_psid); 
 
   // Check if the message contains text
   if (received_message.text) {    
@@ -140,6 +138,7 @@ else if (received_message.attachments) {
 // Handles messaging_postbacks events
 function handlePostback(sender_psid, received_postback) {
     let response;
+    console.log('IN HANDLE POSTBACK');
   
   // Get the payload for the postback
   let payload = received_postback.payload;
@@ -158,6 +157,7 @@ function handlePostback(sender_psid, received_postback) {
 // Sends response messages via the Send API
 function callSendAPI(sender_psid, response) {
   // Construct the message body
+  console.log('IN CALL SEND API');
   let request_body = {
     "recipient": {
       "id": sender_psid
