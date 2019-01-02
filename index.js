@@ -76,7 +76,7 @@ app.get('/webhook', (req, res) => {
     if (mode === 'subscribe' && token === VERIFY_TOKEN) {
       
       // Respond with 200 OK and challenge token from the request
-      console.log('CONGRATS !!WEBHOOK_VERIFIED');
+      console.log('CONGRATS Snigdha!!WEBHOOK_VERIFIED');
       res.status(200).send(challenge);
     
     } else {
