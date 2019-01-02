@@ -25,12 +25,11 @@ app.post('/webhook', (req, res) => {
 
       // Get the webhook event. entry.messaging is an array, but 
       // will only ever contain one event, so we get index 0
-      //let webhook_event = entry.messaging[0];   
-      //console.log(webhook_event);   
+      let webhook_event = entry.messaging[0];   
+      console.log(webhook_event);   
 
       // Get the sender PSID
-      console.log('ABCD');
-      let sender_psid = entry.messaging[0].sender.id;
+      let sender_psid = webhook_event.sender.id;
 
       if(sender_psid){
         console.log('SENDER PSID: ' + sender_psid); 
@@ -38,10 +37,9 @@ app.post('/webhook', (req, res) => {
       else {
         console.log('SENDER PSID IS NULL');
       }
-      console.log('EFGH');
 
-      //let webhook_event1 = entry.messaging[0];
-      //console.log(webhook_event1);
+      let webhook_event1 = entry.messaging[0];
+      console.log(webhook_event1);
 
       // Check if the event is a message or postback and
       // pass the event to the appropriate handler function
@@ -82,7 +80,7 @@ app.get('/webhook', (req, res) => {
     if (mode === 'subscribe' && token === VERIFY_TOKEN) {
       
       // Respond with 200 OK and challenge token from the request
-      console.log('CONGRATS!!WEBHOOK_VERIFIED');
+      console.log('CONGRATS Snigdha!!WEBHOOK_VERIFIED');
       res.status(200).send(challenge);
     
     } else {
