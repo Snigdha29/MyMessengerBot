@@ -11,6 +11,34 @@ const
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
 
+// Accepts GET requests at the /webhook endpoint
+app.get('/webhook', (req, res) => {
+  
+  /** UPDATE YOUR VERIFY TOKEN **/
+  const VERIFY_TOKEN = "abcd1234";
+  
+  // Parse params from the webhook verification request
+  let mode = req.query['hub.mode'];
+  let token = req.query['hub.verify_token'];
+  let challenge = req.query['hub.challenge'];
+    
+  // Check if a token and mode were sent
+  if (mode && token) {
+  
+    // Check the mode and token sent are correct
+    if (mode === 'subscribe' && token === VERIFY_TOKEN) {
+      
+      // Respond with 200 OK and challenge token from the request
+      console.log('CONGRATS!!WEBHOOK_VERIFIED');
+      res.status(200).send(challenge);
+    
+    } else {
+      // Responds with '403 Forbidden' if verify tokens do not match
+      res.sendStatus(403);      
+    }
+  }
+});
+
 // Accepts POST requests at /webhook endpoint
 app.post('/webhook', (req, res) => {  
 
@@ -58,33 +86,6 @@ app.post('/webhook', (req, res) => {
 
 });
 
-// Accepts GET requests at the /webhook endpoint
-app.get('/webhook', (req, res) => {
-  
-  /** UPDATE YOUR VERIFY TOKEN **/
-  const VERIFY_TOKEN = "abcd1234";
-  
-  // Parse params from the webhook verification request
-  let mode = req.query['hub.mode'];
-  let token = req.query['hub.verify_token'];
-  let challenge = req.query['hub.challenge'];
-    
-  // Check if a token and mode were sent
-  if (mode && token) {
-  
-    // Check the mode and token sent are correct
-    if (mode === 'subscribe' && token === VERIFY_TOKEN) {
-      
-      // Respond with 200 OK and challenge token from the request
-      console.log('CONGRATS Snigdha!!WEBHOOK_VERIFIED');
-      res.status(200).send(challenge);
-    
-    } else {
-      // Responds with '403 Forbidden' if verify tokens do not match
-      res.sendStatus(403);      
-    }
-  }
-});
 
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
@@ -102,31 +103,27 @@ function handleMessage(sender_psid, received_message) {
   }  
 else if (received_message.attachments) {
     // Get the URL of the message attachment
-    let attachment_url = received_message.attachments[0].payload.url;
+    //let attachment_url = received_message.attachments[0].payload.url;
     response = {
-      "attachment": {
-        "type": "template",
-        "payload": {
-          "template_type": "generic",
-          "elements": [{
-            "title": "Is this the right picture?",
-            "subtitle": "Tap a button to answer.",
-            "image_url": attachment_url,
-            "buttons": [
-              {
-                "type": "postback",
-                "title": "Yes!",
-                "payload": "yes",
-              },
-              {
-                "type": "postback",
-                "title": "No!",
-                "payload": "no",
-              }
-            ],
-          }]
-        }
+    "attachment":{
+      "type":"template",
+      "payload":{
+        "template_type":"button",
+        "text":"What do you want to do next?",
+        "buttons":[
+          {
+            "type":"postback",
+            "title":"Yes",
+            "payload":"yes",
+          },
+          {
+            "type":"postback",
+            "title":"No",
+            "payload":"no",
+          }
+        ]
       }
+    }
     }
   } 
   
