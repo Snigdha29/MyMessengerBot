@@ -25,18 +25,18 @@ app.post('/webhook', (req, res) => {
 
       // Get the webhook event. entry.messaging is an array, but 
       // will only ever contain one event, so we get index 0
-      let webhook_event = entry.messaging[0];   
-      console.log(webhook_event+webhook_event);   
+      //let webhook_event = entry.messaging[0];   
+      //console.log(webhook_event);   
 
       // Get the sender PSID
-      //let sender_psid = entry.messaging[0].
+      let sender_psid = entry.messaging[0].sender.id;
 
-      //if(sender_psid){
-      //  console.log('SENDER PSID: ' + sender_psid); 
-      //}
-      //else {
-      //  console.log('SENDER PSID IS NULL');
-      //}
+      if(sender_psid){
+        console.log('SENDER PSID: ' + sender_psid); 
+      }
+      else {
+        console.log('SENDER PSID IS NULL');
+      }
       
 
       let webhook_event1 = entry.messaging[0];
