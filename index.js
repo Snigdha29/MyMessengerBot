@@ -29,6 +29,7 @@ app.post('/webhook', (req, res) => {
       //console.log(webhook_event);   
 
       // Get the sender PSID
+      console.log('ABCD');
       let sender_psid = entry.messaging[0].sender.id;
 
       if(sender_psid){
@@ -37,10 +38,10 @@ app.post('/webhook', (req, res) => {
       else {
         console.log('SENDER PSID IS NULL');
       }
-      
+      console.log('EFGH');
 
-      let webhook_event1 = entry.messaging[0];
-      console.log(webhook_event1);
+      //let webhook_event1 = entry.messaging[0];
+      //console.log(webhook_event1);
 
       // Check if the event is a message or postback and
       // pass the event to the appropriate handler function
