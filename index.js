@@ -6,7 +6,7 @@ const
   express = require('express'),
   body_parser = require('body-parser'),
   app = express().use(body_parser.json()),// creates express http server
-  PAGE_ACCESS_TOKEN='EAAFXIDiSi4gBAJBuZAVjv44TSh8ZCKObfZCfPCh3aCjTgiDqI6KcBiyPuADabHXYnc4ZCA7G2bnZAHI2ToajmUYSA7hFnJ8g4Uokwn0GrhKqk4ZCB5UpXCKsDz3REzwl3PraFQnB0496JF7fWMOAnUe4D4ZBZBw5ZCm4XSQbwz5lI9wZDZD';
+  PAGE_ACCESS_TOKEN="EAAFXIDiSi4gBAJBuZAVjv44TSh8ZCKObfZCfPCh3aCjTgiDqI6KcBiyPuADabHXYnc4ZCA7G2bnZAHI2ToajmUYSA7hFnJ8g4Uokwn0GrhKqk4ZCB5UpXCKsDz3REzwl3PraFQnB0496JF7fWMOAnUe4D4ZBZBw5ZCm4XSQbwz5lI9wZDZD";
   //PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
@@ -25,12 +25,22 @@ app.post('/webhook', (req, res) => {
 
       // Get the webhook event. entry.messaging is an array, but 
       // will only ever contain one event, so we get index 0
-      let webhook_event = entry.messaging[0];
-      console.log(webhook_event);
+      let webhook_event = entry.messaging[0];   
+      console.log(webhook_event);   
 
       // Get the sender PSID
       let sender_psid = webhook_event.sender.id;
-      console.log('Sender PSID: ' + sender_psid);
+
+      if(sender_psid){
+        console.log('SENDER PSID: ' + sender_psid); 
+      }
+      else {
+        console.log('SENDER PSID IS NULL');
+      }
+      
+
+      let webhook_event1 = entry.messaging[0];
+      console.log(webhook_event1);
 
       // Check if the event is a message or postback and
       // pass the event to the appropriate handler function
